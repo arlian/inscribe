@@ -72,9 +72,17 @@ function numberField(label: string, key: "x" | "y" | "width" | "height"): HTMLEl
   });
   input.value = String(Math.round(store.get().layer[key]));
 
-  return el("label", { className: "field field-inline" }, [
+  return el("label", { className: "field" }, [
     el("span", { className: "field-label micro-label" }, [label]),
     input,
+  ]);
+}
+
+/** A micro-labelled block, so every control in the panel sits on the same rhythm. */
+function controlGroup(label: string, ...children: (Node | string)[]): HTMLElement {
+  return el("div", { className: "control-group" }, [
+    el("span", { className: "micro-label" }, [label]),
+    ...children,
   ]);
 }
 
@@ -82,9 +90,9 @@ export function mountLayerControls(container: HTMLElement): void {
   const hAlign = segmented<HAlign>(
     "Horizontal alignment",
     [
-      { value: "left", label: "L", title: "Align left" },
-      { value: "center", label: "C", title: "Align center" },
-      { value: "right", label: "R", title: "Align right" },
+      { value: "left", label: "Left", title: "Align left" },
+      { value: "center", label: "Center", title: "Align center" },
+      { value: "right", label: "Right", title: "Align right" },
     ],
     () => store.get().layer.align,
     (value) => instantChange({ align: value }),
@@ -93,18 +101,26 @@ export function mountLayerControls(container: HTMLElement): void {
   const vAlign = segmented<VAlign>(
     "Vertical alignment",
     [
-      { value: "top", label: "T", title: "Align top" },
-      { value: "middle", label: "M", title: "Align middle" },
-      { value: "bottom", label: "B", title: "Align bottom" },
+      { value: "top", label: "Top", title: "Align top" },
+      { value: "middle", label: "Middle", title: "Align middle" },
+      { value: "bottom", label: "Bottom", title: "Align bottom" },
     ],
     () => store.get().layer.vAlign,
     (value) => instantChange({ vAlign: value }),
   );
 
-  const alignRow = el("div", { className: "control-row" }, [hAlign, vAlign]);
+  const alignGroup = controlGroup("Align", hAlign, vAlign);
 
-  const centerHBtn = el("button", { type: "button", className: "btn-secondary" }, ["Center horizontally"]);
-  const centerVBtn = el("button", { type: "button", className: "btn-secondary" }, ["Center vertically"]);
+  const centerHBtn = el(
+    "button",
+    { type: "button", className: "btn-secondary", attrs: { title: "Center the box horizontally on the template" } },
+    ["Center H"],
+  );
+  const centerVBtn = el(
+    "button",
+    { type: "button", className: "btn-secondary", attrs: { title: "Center the box vertically on the template" } },
+    ["Center V"],
+  );
   centerHBtn.addEventListener("click", () => {
     const t = store.get().template;
     if (!t) return;
@@ -115,14 +131,20 @@ export function mountLayerControls(container: HTMLElement): void {
     if (!t) return;
     instantChange({ y: (t.height - store.get().layer.height) / 2 });
   });
-  const centerRow = el("div", { className: "control-row" }, [centerHBtn, centerVBtn]);
+  const centerGroup = controlGroup(
+    "Center on template",
+    el("div", { className: "control-row-split" }, [centerHBtn, centerVBtn]),
+  );
 
-  const numberRow = el("div", { className: "control-row control-row-numbers" }, [
-    numberField("X", "x"),
-    numberField("Y", "y"),
-    numberField("W", "width"),
-    numberField("H", "height"),
-  ]);
+  const numberGroup = controlGroup(
+    "Position and size",
+    el("div", { className: "control-row-numbers" }, [
+      numberField("X", "x"),
+      numberField("Y", "y"),
+      numberField("W", "width"),
+      numberField("H", "height"),
+    ]),
+  );
 
   const colorInput = el("input", {
     type: "color",
@@ -142,8 +164,8 @@ export function mountLayerControls(container: HTMLElement): void {
     if (document.activeElement === colorInput) return;
     colorInput.value = store.get().layer.color;
   });
-  const colorField = el("label", { className: "field field-inline" }, [
-    el("span", { className: "field-label micro-label" }, ["Color"]),
+  const colorField = el("label", { className: "field field-split" }, [
+    el("span", { className: "field-label micro-label" }, ["Text color"]),
     colorInput,
   ]);
 
@@ -152,9 +174,9 @@ export function mountLayerControls(container: HTMLElement): void {
   snapToggle.addEventListener("change", () => {
     store.set({ snapToGrid: snapToggle.checked });
   });
-  const snapField = el("label", { className: "field field-inline", attrs: { for: "snap-toggle" } }, [
-    snapToggle,
+  const snapField = el("label", { className: "field field-split", attrs: { for: "snap-toggle" } }, [
     el("span", { className: "field-label micro-label" }, ["Snap to 10px grid"]),
+    snapToggle,
   ]);
 
   const undoBtn = el("button", { type: "button", className: "btn-secondary" }, ["Undo"]);
@@ -173,7 +195,16 @@ export function mountLayerControls(container: HTMLElement): void {
   };
   syncHistoryButtons();
   store.subscribe(syncHistoryButtons);
-  const historyRow = el("div", { className: "control-row" }, [undoBtn, redoBtn]);
+  const historyGroup = controlGroup(
+    "History",
+    el("div", { className: "control-row-split" }, [undoBtn, redoBtn]),
+  );
 
-  container.append(alignRow, centerRow, numberRow, colorField, snapField, historyRow);
+  container.append(
+    alignGroup,
+    centerGroup,
+    numberGroup,
+    el("div", { className: "control-group" }, [colorField, snapField]),
+    historyGroup,
+  );
 }

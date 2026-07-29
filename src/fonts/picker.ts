@@ -45,9 +45,13 @@ export class FontPicker {
       this.renderList();
     });
 
+    // Six categories wrap to two rows of three rather than overflowing the panel.
     this.categoryGroup = el(
       "div",
-      { className: "segmented", attrs: { role: "radiogroup", "aria-label": "Filter by category" } },
+      {
+        className: "segmented segmented--cols-3",
+        attrs: { role: "radiogroup", "aria-label": "Filter by category" },
+      },
       CATEGORIES.map((cat) => this.buildCategoryButton(cat)),
     );
 

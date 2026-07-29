@@ -5,41 +5,73 @@
   align-items: center;
 }
 
+/* Two equal columns, so paired buttons line up instead of sizing to their text. */
+.control-row-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
 .control-row-numbers {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-2);
 }
 
+/* A labelled block: uppercase micro-label above its control. */
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.layer-controls-mount {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Grid rather than a bordered row: options share width evenly, and a group can
+   wrap to a second line without leaving a stray collapsed border behind. */
 .segmented {
-  display: inline-flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 2px;
+  padding: 2px;
+  background: var(--color-surface-2);
   border: var(--border-width) solid var(--color-border-strong);
   border-radius: var(--radius-sm);
-  overflow: hidden;
+}
+
+.segmented--cols-3 {
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .segmented-option {
-  background: var(--color-surface);
+  background: transparent;
   color: var(--color-text-muted);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-2);
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  text-align: center;
+  white-space: nowrap;
   border: none;
-  border-right: var(--border-width) solid var(--color-border-strong);
+  border-radius: 3px;
   transition: background var(--transition-fast), color var(--transition-fast);
-}
-
-.segmented-option:last-child {
-  border-right: none;
 }
 
 .segmented-option.is-active {
   background: var(--color-accent);
   color: var(--color-accent-ink);
+  font-weight: 500;
 }
 
 .segmented-option:hover:not(.is-active) {
-  background: var(--color-surface-2);
+  background: var(--color-surface);
   color: var(--color-text);
 }
 
@@ -47,6 +79,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  min-width: 0;
 }
 
 .field-inline {
@@ -56,6 +89,16 @@
   gap: var(--space-2);
 }
 
+/* Label on the left, control hard-right, so stacked rows share one edge. */
+.field-split {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 2rem;
+}
+
 .field-label {
   white-space: nowrap;
 }
@@ -63,6 +106,8 @@
 .number-input {
   width: 100%;
   padding: var(--space-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
   background: var(--color-surface);
   color: var(--color-text);
   border: var(--border-width) solid var(--color-border-strong);

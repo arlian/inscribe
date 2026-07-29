@@ -8,7 +8,7 @@ import { el } from "./dom";
 export function mountExportPanel(container: HTMLElement): void {
   const pdfBtn = el("button", { type: "button", className: "btn-primary" }, ["Export PDF"]);
   const zipBtn = el("button", { type: "button", className: "btn-primary" }, ["Export ZIP"]);
-  const buttonRow = el("div", { className: "control-row" }, [pdfBtn, zipBtn]);
+  const buttonRow = el("div", { className: "control-row-split" }, [pdfBtn, zipBtn]);
 
   const progressBar = el("div", { className: "progress-bar" }, [el("div", { className: "progress-bar-fill" })]);
   const progressFill = progressBar.querySelector<HTMLElement>(".progress-bar-fill")!;
