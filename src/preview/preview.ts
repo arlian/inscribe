@@ -20,9 +20,12 @@ export class Preview {
 
   render(): void {
     const { template, names, currentIndex } = store.get();
-    const { canvas, emptyState, overflowBanner, prevBtn, nextBtn, nameIndexLabel, currentNameLabel } = this.els;
+    const { canvas, canvasStage, emptyState, overflowBanner, prevBtn, nextBtn, nameIndexLabel, currentNameLabel } =
+      this.els;
 
     if (!template) {
+      canvasStage.style.removeProperty("--template-aspect");
+      canvasStage.style.display = "none";
       canvas.style.display = "none";
       emptyState.style.display = "flex";
       overflowBanner.hidden = true;
@@ -33,6 +36,9 @@ export class Preview {
       return;
     }
 
+    // Drives the stage's aspect-ratio so it letterboxes to the template's shape.
+    canvasStage.style.setProperty("--template-aspect", `${template.width} / ${template.height}`);
+    canvasStage.style.display = "block";
     canvas.style.display = "block";
     emptyState.style.display = "none";
 

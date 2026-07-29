@@ -4,10 +4,13 @@ body,
   height: 100%;
 }
 
+/* A definite height (not min-height) is what lets the canvas viewport bound
+   itself to the space left over, instead of the grid row growing off-screen. */
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
 }
 
 .app-header {
@@ -103,6 +106,8 @@ body,
   padding: var(--space-5);
   gap: var(--space-4);
   background: var(--color-bg);
+  /* The canvas viewport fits itself to the space, so this panel never scrolls. */
+  overflow: hidden;
 }
 
 .panel-section {
@@ -278,6 +283,12 @@ body,
 
 .export-progress[hidden] {
   display: none;
+}
+
+.export-mount {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .progress-bar {

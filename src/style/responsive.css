@@ -1,4 +1,10 @@
 @media (max-width: 900px) {
+  /* Stacked panels scroll as one page, so the height stops being fixed here. */
+  #app {
+    height: auto;
+    min-height: 100vh;
+  }
+
   .app-main {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
@@ -15,7 +21,12 @@
 
   .panel,
   .panel-right {
-    overflow-y: visible;
+    overflow: visible;
+  }
+
+  /* Cap the canvas so it can't push the controls entirely below the fold. */
+  .canvas-viewport {
+    max-height: 60vh;
   }
 }
 

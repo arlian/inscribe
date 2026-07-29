@@ -1,8 +1,27 @@
+/* The workspace surface: a neutral mid-gray field the template is centered on,
+   identical in both themes so ink color is judged accurately. */
+.canvas-viewport {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  /* An explicit single cell, so the stage's max-width/max-height percentages
+     resolve against the viewport rather than against its own content. */
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  padding: var(--space-4);
+  background: var(--color-canvas-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+/* aspect-ratio plus the max-* pair letterboxes the template: it scales down to
+   fit whichever axis binds first, never overflowing the viewport, never distorting. */
 .canvas-stage {
   position: relative;
-  display: inline-block;
   max-width: 100%;
-  background: var(--color-canvas-surface);
+  max-height: 100%;
+  aspect-ratio: var(--template-aspect, 4 / 3);
   background-image: linear-gradient(45deg, var(--color-canvas-checker-a) 25%, transparent 25%),
     linear-gradient(-45deg, var(--color-canvas-checker-a) 25%, transparent 25%),
     linear-gradient(45deg, transparent 75%, var(--color-canvas-checker-a) 75%),
@@ -10,20 +29,16 @@
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
   background-color: var(--color-canvas-checker-b);
-  border: var(--border-width) solid var(--color-border);
-  align-self: flex-start;
   touch-action: none;
 }
 
 .preview-canvas {
   display: block;
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 
 .canvas-empty-state {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,8 +46,14 @@
   gap: var(--space-2);
   text-align: center;
   padding: var(--space-6);
-  min-height: 20rem;
-  min-width: 24rem;
+  max-width: 32rem;
+  color: var(--color-canvas-ink);
+}
+
+/* Stage and empty state share the viewport's single cell and swap via display. */
+.canvas-stage,
+.canvas-empty-state {
+  grid-area: 1 / 1;
 }
 
 .canvas-empty-state p {
@@ -43,6 +64,12 @@
   font-family: var(--font-display);
   font-size: var(--text-lg);
   font-weight: 700;
+}
+
+/* Sits on the fixed mid-gray workspace, so it opts out of the themed muted color. */
+.canvas-empty-state .micro-label {
+  color: var(--color-canvas-ink);
+  opacity: 0.75;
 }
 
 .text-layer {

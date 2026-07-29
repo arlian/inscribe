@@ -14,9 +14,13 @@
   --color-warning: #8a5b09;
   --color-warning-bg: #f6e8cc;
   --color-focus-ring: #eb400d;
+
+  /* The canvas workspace stays this exact neutral mid-gray in BOTH themes so the
+     user judges the template's ink color accurately. Do not theme these. */
   --color-canvas-surface: #8f8d89;
   --color-canvas-checker-a: #9c9a96;
   --color-canvas-checker-b: #83817d;
+  --color-canvas-ink: #16130f;
 
   --shadow-sm: 0 1px 2px rgba(22, 19, 15, 0.08), 0 4px 12px rgba(22, 19, 15, 0.08);
 
@@ -84,9 +88,6 @@
   --color-warning: #e8bd6a;
   --color-warning-bg: #3a2f16;
   --color-focus-ring: #e2643a;
-  --color-canvas-surface: #57564f;
-  --color-canvas-checker-a: #605f58;
-  --color-canvas-checker-b: #4c4b45;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.35);
 }

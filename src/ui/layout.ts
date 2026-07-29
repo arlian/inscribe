@@ -116,7 +116,10 @@ export function buildLayout(root: HTMLElement): AppElements {
     el("p", { className: "micro-label" }, ["Your image never leaves this browser"]),
   ]);
 
-  const canvasStage = el("div", { className: "canvas-stage" }, [canvas, textLayerEl, guideV, guideH, emptyState]);
+  const canvasStage = el("div", { className: "canvas-stage" }, [canvas, textLayerEl, guideV, guideH]);
+  // The empty state is a sibling of the stage, not a child: with no template the
+  // stage has no content to size from and would collapse around it.
+  const canvasViewport = el("div", { className: "canvas-viewport" }, [canvasStage, emptyState]);
 
   const overflowBanner = el("div", { className: "overflow-banner", attrs: { role: "status" } });
 
@@ -131,7 +134,7 @@ export function buildLayout(root: HTMLElement): AppElements {
     nextBtn,
   ]);
 
-  const rightPanel = el("div", { className: "panel panel-right" }, [previewNav, canvasStage, overflowBanner]);
+  const rightPanel = el("div", { className: "panel panel-right" }, [previewNav, canvasViewport, overflowBanner]);
 
   const main = el("main", { className: "app-main" }, [leftPanel, rightPanel]);
 
