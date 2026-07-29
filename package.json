@@ -1,0 +1,25 @@
+{
+  "name": "inscribe",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arlian/inscribe.git"
+  },
+  "homepage": "https://arlian.github.io/inscribe/",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^8.1.5"
+  }
+}
