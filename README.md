@@ -2,6 +2,8 @@
 
 Stamp a list of names onto a certificate template and export the results as a PDF or a ZIP of PNGs — entirely in your browser. No backend, no accounts, no upload: the template image and the name list never leave your device.
 
+**[Live demo →](https://arlian.github.io/inscribe/)**
+
 | Light | Dark |
 | --- | --- |
 | ![Inscribe in light theme](docs/screenshot-light.png) | ![Inscribe in dark theme](docs/screenshot-dark.png) |
